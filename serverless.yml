@@ -1,0 +1,31 @@
+service: grade-management-api
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+  environment:
+    MONGODB_URI: ${env:MONGODB_URI}
+    DB_NAME: ${env:DB_NAME}
+
+functions:
+  getAttendances:
+    handler: lambda/getAttendances.handler
+    events:
+      - http:
+          path: /api/attendance
+          method: get
+          cors: true
+  
+  createBulkAttendance:
+    handler: lambda/createBulkAttendance.handler
+    events:
+      - http:
+          path: /api/attendance/bulk
+          method: post
+          cors: true
+
+plugins:
+  - serverless-offline
+  - serverless-plugin-typescript

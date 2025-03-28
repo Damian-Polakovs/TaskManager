@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: taskmanager-api
+    env: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - fromGroup: taskmanager-env
+    autoDeploy: true
